@@ -47,3 +47,12 @@ class FileStorage:
                     self.new(eval(cls_name)(**o))
         except FileNotFoundError:
             return
+
+    def delete(self, obj=None):
+        """This deletes obj from __objects if its inside"""
+        if obj is not None:
+            ocname = obj.__class__.__name__
+            if ocname in self.__objects:
+                del self.__objects[ocname]
+
+
