@@ -1,49 +1,76 @@
 #!/usr/bin/python3
-"""This defines the FileStorage class"""
-import json
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
+"""
+This contains the class DBStorage
+"""
+
+import models
+from models.amenity import Amenity
+from models.base_model import BaseModel, Base
 from models.city import City
 from models.place import Place
-from models.amenity import Amenity
 from models.review import Review
+from models.state import State
+from models.user import User
+from os import getenv
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+
+classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 
-class FileStorage:
-    """Represents an abstracted storage engine
+class DBStorage:
+    """Enables interaction with the MySQL database"""
+    __engine = None
+    __session = None
 
-    Attributes:
-        __file_path (str): Name of the file to save object to.
-        __objects (dict): Dictionary of instantiated objects
-    """
-    __file_path = "file.json"
-    __objects = {}
+    def __init__(self):
+        """This instantiates a DBStorage object"""
+        HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
+        HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
+        HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
+        HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
+        HBNB_ENV = getenv('HBNB_ENV')
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+                                      format(HBNB_MYSQL_USER,
+                                             HBNB_MYSQL_PWD,
+                                             HBNB_MYSQL_HOST,
+                                             HBNB_MYSQL_DB))
+        if HBNB_ENV == "test":
+            Base.metadata.drop_all(self.__engine)
 
-    def all(self):
-        """Returns the dictionary __objects"""
-        return FileStorage.__objects
+    def all(self, cls=None):
+        """The query on the current database session"""
+        new_dict = {}
+        for clss in classes:
+            if cls is None or cls is classes[clss] or cls is clss:
+                objs = self.__session.query(classes[clss]).all()
+                for obj in objs:
+                    key = obj.__class__.__name__ + '.' + obj.id
+                    new_dict[key] = obj
+        return (new_dict)
 
     def new(self, obj):
-        """It sets in __objects obj with key <obj_class_name>.id"""
-        ocname = obj.__class__.__name__
-        FileStorage.__objects["{}.{}".format(ocname, obj.id)] = obj
+        """It adds the object to the current database session"""
+        self.__session.add(obj)
 
     def save(self):
-        """to serialize __objects to JSON file __file_path"""
-        odict = FileStorage.__objects
-        objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
-        with open(FileStorage.__file_path, "w") as f:
-            json.dump(objdict, f)
+        """This commits all changes of the current database session"""
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        """To delete from the current database session obj if not None"""
+        if obj is not None:
+            self.__session.delete(obj)
 
     def reload(self):
-        """To deserialize the JSON file __file_path to __objects"""
-        try:
-            with open(FileStorage.__file_path) as f:
-                objdict = json.load(f)
-                for o in objdict.values():
-                    cls_name = o["__class__"]
-                    del o["__class__"]
-                    self.new(eval(cls_name)(**o))
-        except FileNotFoundError:
-            return
+        """This reloads data from the database"""
+        Base.metadata.create_all(self.__engine)
+        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(sess_factory)
+        self.__session = Session
+
+    def close(self):
+        """The call remove() method on the private session attribute"""
+        self.__session.remove()
