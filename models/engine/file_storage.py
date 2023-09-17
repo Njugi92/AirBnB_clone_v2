@@ -54,5 +54,8 @@ class FileStorage:
             ocname = obj.__class__.__name__
             if ocname in self.__objects:
                 del self.__objects[ocname]
-
+    
+    def close(self):
+        """Then call reload() method to desrialize JSON file to object"""
+        self.reload()
 
