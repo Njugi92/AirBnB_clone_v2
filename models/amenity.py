@@ -1,12 +1,21 @@
-#!/usr/bin/python3
-"""It defines amenity class"""
-from models.base_model import BaseModel
+#!/usr/bin/python
+""" It defines class Amenity"""
+import models
+from models.base_model import BaseModel, Base
+from os import getenv
+import sqlalchemy
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
 
-class Amenity(BaseModel):
-    """THis represents an amenity
-    Attributes:
-        name (str): Name of the amenity
-    """
+class Amenity(BaseModel, Base):
+    """The representation of Amenity db """
+    if models.storage_t == 'db':
+        __tablename__ = 'amenities'
+        name = Column(String(128), nullable=False)
+    else:
+        name = ""
 
-    name = ""
+    def __init__(self, *args, **kwargs):
+        """This initializes Amenity method"""
+        super().__init__(*args, **kwargs)
