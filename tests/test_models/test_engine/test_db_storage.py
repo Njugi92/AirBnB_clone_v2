@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 """
+<<<<<<< HEAD
 Contains the TestDBStorageDocs and TestDBStorage classes
+=======
+It contains the TestDBStorageDocs and TestDBStorage classes
+>>>>>>> 50b393c8552869e39ae3e7f2e88e14864af6ff63
 """
 
 from datetime import datetime
@@ -24,10 +28,17 @@ classes = {"Amenity": Amenity, "City": City, "Place": Place,
 
 
 class TestDBStorageDocs(unittest.TestCase):
+<<<<<<< HEAD
     """Tests to check the documentation and style of DBStorage class"""
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
+=======
+    """The tests to check documentation and style of DBStorage class"""
+    @classmethod
+    def setUpClass(cls):
+        """This sets up for the doc tests"""
+>>>>>>> 50b393c8552869e39ae3e7f2e88e14864af6ff63
         cls.dbs_f = inspect.getmembers(DBStorage, inspect.isfunction)
 
     def test_pep8_conformance_db_storage(self):
@@ -46,21 +57,33 @@ test_db_storage.py'])
                          "Found code style errors (and warnings).")
 
     def test_db_storage_module_docstring(self):
+<<<<<<< HEAD
         """Test for the db_storage.py module docstring"""
+=======
+        """tests for db_storage.py module docstring"""
+>>>>>>> 50b393c8552869e39ae3e7f2e88e14864af6ff63
         self.assertIsNot(db_storage.__doc__, None,
                          "db_storage.py needs a docstring")
         self.assertTrue(len(db_storage.__doc__) >= 1,
                         "db_storage.py needs a docstring")
 
     def test_db_storage_class_docstring(self):
+<<<<<<< HEAD
         """This tests for DBStorage class docstring"""
+=======
+        """This tests for the DBStorage class docstring"""
+>>>>>>> 50b393c8552869e39ae3e7f2e88e14864af6ff63
         self.assertIsNot(DBStorage.__doc__, None,
                          "DBStorage class needs a docstring")
         self.assertTrue(len(DBStorage.__doc__) >= 1,
                         "DBStorage class needs a docstring")
 
     def test_dbs_func_docstrings(self):
+<<<<<<< HEAD
         """To tests for presence of docstrings in DBStorage methods"""
+=======
+        """Test for the presence of docstrings in DBStorage methods"""
+>>>>>>> 50b393c8552869e39ae3e7f2e88e14864af6ff63
         for func in self.dbs_f:
             self.assertIsNot(func[1].__doc__, None,
                              "{:s} method needs a docstring".format(func[0]))
@@ -69,14 +92,22 @@ test_db_storage.py'])
 
 
 class TestFileStorage(unittest.TestCase):
+<<<<<<< HEAD
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test all returns a dictionaty"""
+=======
+    """To test FileStorage class"""
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_all_returns_dict(self):
+        """To test that all returns a dictionaty"""
+>>>>>>> 50b393c8552869e39ae3e7f2e88e14864af6ff63
         self.assertIs(type(models.storage.all()), dict)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
+<<<<<<< HEAD
         """tests that all returns all rows when no class is passed"""
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
@@ -86,3 +117,14 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Its tests save properly saves objects to file.json"""
+=======
+        """Tests that all returns all rows when no class is passed"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_new(self):
+        """To test that new adds an object to the database"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_save(self):
+        """It tests that save properly saves objects to file.json"""
+>>>>>>> 50b393c8552869e39ae3e7f2e88e14864af6ff63
