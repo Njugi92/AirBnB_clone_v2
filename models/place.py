@@ -57,7 +57,7 @@ class Place(BaseModel, Base):
     if models.storage_t != 'db':
         @property
         def reviews(self):
-            """The getter attribute that returns the list of Review instances"""
+            """The getter attribute that returns list of Review instances"""
             from models.review import Review
             review_list = []
             all_reviews = models.storage.all(Review)
@@ -68,7 +68,7 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            """The getter attribute that returns the list of Amenity instances"""
+            """The getter attribute that returns list of Amenity instances"""
             from models.amenity import Amenity
             amenity_list = []
             all_amenities = models.storage.all(Amenity)
