@@ -29,4 +29,4 @@ def do_deploy(archive_path):
         run("mkdir -p {}/".format(no_tgz))
         run("tar -xzf {} -C {} /".format(tmp, no_tgz))
         run("rm {}".format(tmp))
-        run("mv {}/web_static/* {}/".format(no_tgz, no_tgz))
+        run("mv {}/data/web_static/* {}/".format(no_tgz, no_tgz))
