@@ -2,7 +2,6 @@
 """ This starts Flk web aption
 """
 
-
 from flask import Flask
 
 app = Flask(__name__)
@@ -29,7 +28,6 @@ def c_with_text(text):
     # Replacing underscores with spaces in text variables
     formatted_text = text.replace('_', ' ')
     return "C {}".format(formatted_text)
-
 
 if __name__ == "__main__":
     # Start flask development server
