@@ -1,4 +1,4 @@
-#!/sr/bin/pyhon3
+#!/usr/bin/pyhon3
 """ This starts Flask web application
 """
 
