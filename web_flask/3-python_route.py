@@ -43,7 +43,7 @@ def python_with_text(text):
     Replaces underscore with spaces in the text variables
     """
     formatted_text = text.replace('_', ' ')
-    return "python {}".format(formatted_text)
+    return "Python {}".format(formatted_text)
 
 
 if __name__ == "__main__":
