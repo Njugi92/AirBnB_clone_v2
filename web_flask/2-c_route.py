@@ -1,5 +1,5 @@
 #!/sr/bin/pyhon3
-""" This starts Flk web aption
+""" This starts Flask web application
 """
 
 from flask import Flask
