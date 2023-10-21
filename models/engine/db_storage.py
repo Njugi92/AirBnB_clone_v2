@@ -4,6 +4,7 @@ This contains the class DBStorage
 """
 
 import models
+import os
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
 from models.city import City
@@ -36,7 +37,7 @@ class DBStorage:
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
-                                             HBNB_MYSQL_DB))
+                                             HBNB_MYSQL_DB), pool_pre_ping=True)
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -54,6 +55,7 @@ class DBStorage:
     def new(self, obj):
         """It adds the object to the current database session"""
         self.__session.add(obj)
+        self.__session.flush()
 
     def save(self):
         """This commits all changes of the current database session"""
@@ -67,10 +69,10 @@ class DBStorage:
     def reload(self):
         """This reloads data from the database"""
         Base.metadata.create_all(self.__engine)
-        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(sess_factory)
-        self.__session = Session
+        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
 
     def close(self):
         """The call remove() method on the private session attribute"""
-        self.__session.remove()
+        self.__session.close()

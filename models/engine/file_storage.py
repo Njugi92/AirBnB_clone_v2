@@ -4,6 +4,7 @@ It contains the FileStorage class
 """
 
 import json
+import sys
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -45,17 +46,17 @@ class FileStorage:
         json_objects = {}
         for key in self.__objects:
             json_objects[key] = self.__objects[key].to_dict()
-        with open(self.__file_path, 'w') as f:
+        with open(self.__file_path, 'w', encoding="UTF-8") as f:
             json.dump(json_objects, f)
 
     def reload(self):
         """It deserializes the JSON file to __objects"""
         try:
-            with open(self.__file_path, 'r') as f:
+            with open(self.__file_path, 'r', encoding="UTF-8") as f:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
