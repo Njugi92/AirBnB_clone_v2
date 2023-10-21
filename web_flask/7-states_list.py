@@ -10,7 +10,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 app = Flask(__name__)
 
 
-#Tear down app context to remove current sqlalchemy session after each request
+# Tear down app context to remove current sqlalchemy session after each request
 @app.teardown_appcontext
 def teardown(exception):
     """remove current sqlalchemy session """
