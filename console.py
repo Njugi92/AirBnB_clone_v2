@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" The console """
+""" console """
 
 import cmd
 from datetime import datetime
@@ -26,15 +26,15 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def emptyline(self):
-        """ To overwriting the emptyline method """
+        """ overwriting the emptyline method """
         return False
 
     def do_quit(self, arg):
-        """Quit command line or to exit the program"""
+        """Quit command to exit the program"""
         return True
 
     def _key_value_parser(self, args):
-        """This creates a dictionary from a list of strings"""
+        """creates a dictionary from a list of strings"""
         new_dict = {}
         for arg in args:
             if "=" in arg:
@@ -70,7 +70,7 @@ class HBNBCommand(cmd.Cmd):
         instance.save()
 
     def do_show(self, arg):
-        """It prints an instance as a string based on the class and id"""
+        """Prints an instance as a string based on the class and id"""
         args = shlex.split(arg)
         if len(args) == 0:
             print("** class name missing **")
@@ -88,7 +88,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_destroy(self, arg):
-        """This deletes an instance based on the class and id"""
+        """Deletes an instance based on the class and id"""
         args = shlex.split(arg)
         if len(args) == 0:
             print("** class name missing **")
@@ -161,4 +161,4 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
 if __name__ == '__main__':
-    HBNBCommand().cmdloop
+    HBNBCommand().cmdloop()
